@@ -1,0 +1,3 @@
+rework clean/fclean/re in Makefile
+
+$(CFLAGS) add that back to line 14
