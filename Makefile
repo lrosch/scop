@@ -10,7 +10,7 @@ LINK+= $(LIBRARIES)
 
 HEADER += .\include
 
-SRC= $(addprefix src/, main.cpp callback.cpp utils.cpp object.cpp)
+SRC= $(addprefix src/, main.cpp callback.cpp utils.cpp object.cpp renderer.cpp)
 
 $(NAME): $(SRC)
 	$(CC) -o $(NAME) $(SRC) -I $(HEADER) $(LIBRARIES)
@@ -24,8 +24,8 @@ silence:
 clean:
 	@find . -type f -name '*.o' -delete
 
-fclean: clean
-	@rm -f $(NAME)
+fclean:
+	@rm -f $(NAME) $(NAME).exe
 
 re: fclean
 	@make all

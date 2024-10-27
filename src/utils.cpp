@@ -19,19 +19,15 @@ face create_face(std::string line, std::string material)
   iss >> prefix;
   while(iss >> value)
     values.push_back(value);
-  if (values.size() == 3)
+  if (values.size() == 3 || values.size() == 4)
   {
-    return_face.a = values[0];
-    return_face.b = values[1];
-    return_face.c = values[2];
-  }
-  else if (values.size() == 4)
-  {
-    return_face.a = values[0];
-    return_face.b = values[1];
-    return_face.c = values[2];
-    return_face.d = values[3];
-    return_face.fourth_val = true;
+    return_face.indices[0] = values[0];
+    return_face.indices[1] = values[1];
+    return_face.indices[2] = values[2];
+    return_face.indices[3] = values[3];
+    return_face.count = values.size();
+    if (return_face.count == 3)
+      return_face.indices[3] = 0;
   }
   else
     throw std::runtime_error("Invalid input format. Expected 3 or 4 values.");
@@ -105,9 +101,8 @@ std::string get_material_from_file(std::string line)
 
 void print_faces(std::vector<face>& indices) {
     for (const auto& f : indices) {
-        std::cout << "face: " << "a: " << f.a << ", b: " << f.b << ", c: " << f.c << ", d: " << f.d
-                  << ", fourth_val: " << (f.fourth_val ? "true" : "false")
-                  << ", material: " << f.material << std::endl;
+        std::cout << "face: " << "a: " << f.indices[0] << ", b: " << f.indices[1] << ", c: " << f.indices[2] << ", d: " << f.indices[3]
+                  << ", count: " << f.count << ", material: " << f.material << std::endl;
     }
 }
 

@@ -13,6 +13,27 @@ Object::Object(std::string object_file)
 
 Object::~Object()
 {
+    glDeleteVertexArrays(1, &this->Vertex_array);
+    glDeleteBuffers(1, &this->Vertex_buffer);
+    glDeleteBuffers(1, &this->Element_buffer);
+}
+
+void Object::populate_buffers()
+{
+    // glGenVertexArrays(1, &this->Vertex_array);
+    // glBindVertexArray(this->Vertex_array);
+    glGenBuffers(1, &this->Vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, this->Vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(v3), this->vertices.data(), GL_STATIC_DRAW);
+
+
+    glEnableVertexAttribArray(0);
+    /* this tells how to interpret the vertex data -> 0: start at vertex 0, 3: has 3 attributes (x,y,z)
+       GL_FLOAT: data is float, GL_FALSE: dont normalize input, 
+       sizeof(v3): has v3 many bytes so 1 vertex is v3 size
+       (void*)0: specifies offset in this case 0 */
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(v3), (const void *)0);
+    glBindVertexArray(GL_ARRAY_BUFFER, 0);
 }
 
 int Object::fill_in_from_object_file()
@@ -48,10 +69,10 @@ int Object::fill_in_from_object_file()
             }
         }
     }
-    // print_faces(this->indices);
-    // print_vertices(this->vertices);
-    // print_shading(this->smooth_shading);
-    // print_name(this->name);
+    /* print_faces(this->indices); /*
+    print_vertices(this->vertices);
+    print_shading(this->smooth_shading);
+    print_name(this->name); */
     inputFile.close();
     return (0);
 }

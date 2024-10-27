@@ -12,6 +12,7 @@
 #include "include\glfw3.h"
 #include "include\khrplatform.h"
 #include "include\object.hpp"
+#include "include\renderer.hpp"
 
 void escape_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 

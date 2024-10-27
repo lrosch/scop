@@ -14,12 +14,15 @@ int main(int argc, char **argv)
         return (1);
     }
     Object object(object_file);
+    Renderer renderer;
+    
     if (glfwInit() == GLFW_FALSE) 
     {
         std::cout << "Failed to initialize glfw" << std::endl;
         glfwTerminate();
         return (1);
     }
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     GLFWwindow* window = glfwCreateWindow(640, 480, "scop", nullptr, nullptr);
@@ -32,8 +35,16 @@ int main(int argc, char **argv)
     std::cout << "Window-creation worked properly" << std::endl;
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, escape_callback);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return (1);
+    }
+    std::cout << "GLAD successfully initialized" << std::endl;
+    object.populate_buffers();
     while (!glfwWindowShouldClose(window))
     {
+        glDrawArrays(GL_TRIANGLES, 0, object.vertices.size()); // doesnt work yet
         glfwPollEvents();
     }
     glfwDestroyWindow(window);

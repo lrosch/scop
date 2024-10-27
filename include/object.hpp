@@ -1,3 +1,6 @@
+#ifndef OBJECT_HPP
+#define OBJECT_HPP
+
 struct v3 
 {
     float x;
@@ -7,11 +10,8 @@ struct v3
 
 struct face
 {
-    int a;
-    int b;
-    int c;
-    int d;
-    bool fourth_val = false;
+    int indices[4];
+    int count;
     std::string material;
 };
 
@@ -23,8 +23,16 @@ class Object{
         bool smooth_shading;
         std::string name;
 
+        GLuint Vertex_array;
+        GLuint Vertex_buffer;
+        GLuint Element_buffer;
+        std::vector<unsigned int> indexBuffer;
+        
         Object();
         Object(std::string file);
         ~Object();
         int fill_in_from_object_file();
+        void populate_buffers();
 };
+
+#endif
